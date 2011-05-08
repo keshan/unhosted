@@ -95,5 +95,43 @@ var PuSH = function() {
 			xhr.send();	
 		});
 	}
+	var getPostsPuSH = function(userAddress, cb) {
+		getPostsAtom(userAddress, function(postsAtomUrl) {
+			var xhr = new XMLHttpRequest();
+			var url = template.replace(/{uri}/, "acct:"+userAddress, true);
+			xhr.open("GET", url, true);
+			//WebFinger spec allows application/xml+xrd as the mime type, but we need it to be text/xml for xhr.responseXML to be non-null:
+			xhr.overrideMimeType('text/xml');
+			xhr.send();
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState == 4) {
+					if(xhr.status == 200) {
+				
+						//HACK
+						var parser=new DOMParser();
+						var responseXML = parser.parseFromString(xhr.responseText, "text/xml");
+						//END HACK
+
+						var linkElts = responseXML.documentElement.getElementsByTagName('Link');
+						var i;
+						for(i=0; i < linkElts.length; i++) {
+							if(linkElts[i].attributes.getNamedItem('rel').value == "hub") {
+								cb(linkElts[i].attributes.getNamedItem('href').value);
+								return;
+							}
+						}
+					}
+				}
+			}
+		});
+	}
+	push.connect(userAddress, cb) {
+		getPostsPuSH(userAddress, function(postsPuSH) {
+			push.url = postsPuSH;
+			cb();
+		});
+	}
+	
 	return push;
 }
+PuSH().connect("michielbdejong@identi.ca", function() {alert('hurray!');});
