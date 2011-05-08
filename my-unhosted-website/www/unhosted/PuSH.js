@@ -103,9 +103,7 @@ var PuSH = function() {
 	var getPostsPuSH = function(userAddress, cb) {
 		getPostsAtom(userAddress, function(postsAtomUrl) {
 			var xhr = new XMLHttpRequest();
-			var url = template.replace(/{uri}/, "acct:"+userAddress, true);
-			xhr.open("GET", url, true);
-			//WebFinger spec allows application/xml+xrd as the mime type, but we need it to be text/xml for xhr.responseXML to be non-null:
+			xhr.open("GET", postsAtomUrl, true);
 			xhr.overrideMimeType('text/xml');
 			xhr.send();
 			xhr.onreadystatechange = function() {
@@ -117,11 +115,12 @@ var PuSH = function() {
 						var responseXML = parser.parseFromString(xhr.responseText, "text/xml");
 						//END HACK
 
-						var linkElts = responseXML.documentElement.getElementsByTagName('Link');
+						var docChilds = responseXML.documentElement.childNodes;
 						var i;
-						for(i=0; i < linkElts.length; i++) {
-							if(linkElts[i].attributes.getNamedItem('rel').value == "hub") {
-								cb(linkElts[i].attributes.getNamedItem('href').value);
+						for(i=0; i < docChilds.length; i++) {
+							var test1 = docChilds[i].localName;
+							if((docChilds[i].localName == "link") && (docChilds[i].attributes.getNamedItem('rel').value == "hub")) {
+								cb(docChilds[i].attributes.getNamedItem('href').value);
 								return;
 							}
 						}
