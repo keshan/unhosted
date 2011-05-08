@@ -14,45 +14,35 @@ var DAV = function() {
 			+"/"+key;
 		return url;
 	}
-	dav.get = function(key, cb) {
+	dav.get = function(key) {
 		var wallet = getWallet();
 		var xhr = new XMLHttpRequest();
-		xhr.open("GET", keyToUrl(key, wallet), true);
-		xhr.onreadystatechange = function() {
-			if(xhr.readyState == 4) {
-				if(xhr.status == 200) {
-					cb(xhr.responseText);
-				} if(xhr.status == 404) {
-					cb(null);
-				} else {
-					alert("error: got status "+xhr.status+" when doing basic auth GET on url "+keyToUrl(key));
-				}
-			}
-		}
+		xhr.open("GET", keyToUrl(key, wallet), false);
 		xhr.send();
+		if(xhr.status == 200) {
+			return xhr.responseText;
+		} if(xhr.status == 404) {
+			return null;
+		} else {
+			alert("error: got status "+xhr.status+" when doing basic auth GET on url "+keyToUrl(key));
+		}
 	}
 	
-	dav.put = function(key, text, cb) {
+	dav.put = function(key, text) {
 		var wallet = getWallet();
 		var xhr = new XMLHttpRequest();
 		
-		//xhr.open("PUT", keyToUrl(key, wallet), true, wallet.userAddress, wallet.davToken);
+		//xhr.open("PUT", keyToUrl(key, wallet), false, wallet.userAddress, wallet.davToken);
 		//HACK:
-		xhr.open("PUT", keyToUrl(key, wallet), true);
+		xhr.open("PUT", keyToUrl(key, wallet), false);
 		xhr.setRequestHeader("Authorization", "Basic "+Base64.encode(wallet.userAddress +':'+ wallet.davToken));
 		//END HACK.
 
-		xhr.onreadystatechange = function() {
-			if(xhr.readyState == 4) {
-				if(xhr.status != 200 && xhr.status != 201 && xhr.status != 204) {
-					alert("error: got status "+xhr.status+" when doing basic auth PUT on url "+keyToUrl(key));
-				} else {
-					cb();
-				}
-			}
-		}
 		xhr.withCredentials = "true";
 		xhr.send(text);
+		if(xhr.status != 200 && xhr.status != 201 && xhr.status != 204) {
+			alert("error: got status "+xhr.status+" when doing basic auth PUT on url "+keyToUrl(key));
+		}
 	}
 	return dav;
 }
@@ -73,33 +63,20 @@ var Unhosted = function() {
 	unhosted.getUserName = function() {
 		return getWallet().userAddress;
 	}
-	unhosted.setCryptoPwd = function(cryptoPwd) {
+	unhosted.get = function(key) {
 		var wallet = getWallet();
-		wallet.cryptoPwd = cryptoPwd;
-		setWallet(wallet);
-	}
-	unhosted.get = function(key, requirePwd, cb) {
-		var wallet = getWallet();
-		if(wallet.cryptoPwd == undefined) {
-			dav.get(key, function(str) {
-				try {
-					cb(JSON.parse(str));
-				} catch(e) {
-					requirePwd();
-				}
-			});
+		if(wallet.cryptoPwd == null) {
+			return JSON.parse(dav.get(key));
 		} else {
-			dav.get(key, function(str) {
-				cb(JSON.parse(sjcl.decrypt(wallet.cryptoPwd, str));
-			}
+			return JSON.parse(sjcl.decrypt(wallet.cryptoPwd, dav.get(key)));
 		}
 	}
-	unhosted.set = function(key, value, cb) {
+	unhosted.set = function(key, value) {
 		var wallet = getWallet();
-		if(wallet.cryptoPwd == undefined) {
-			dav.put(key, JSON.stringify(value), cb);
+		if(wallet.cryptoPwd == null) {
+			dav.put(key, JSON.stringify(value));
 		} else {
-			dav.put(key, sjcl.encrypt(wallet.cryptoPwd, JSON.stringify(value)), cb);
+			dav.put(key, sjcl.encrypt(wallet.cryptoPwd, JSON.stringify(value)));
 		}
 	}
 	unhosted.close = function() {
