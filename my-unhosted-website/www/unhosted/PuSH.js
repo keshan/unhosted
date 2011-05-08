@@ -84,9 +84,14 @@ var PuSH = function() {
 						var collections = responseXML.documentElement.getElementsByTagName('collection');
 						var i;
 						for(i=0; i < collections.length; i++) {
-							var verbElements = collections[i].getElementsByTagName('activity:verb');
-							if(verbElements[0] == "http://activitystrea.ms/schema/1.0/post") {
-								cb(collections[i].attributes.getNamedItem('href'));
+							var childElements = collections[i].childNodes;
+							var j;
+							for(j=0; j < childElements.length; j++) {
+								if(childElements[j].nodeName == "activity:verb") {
+									if(childElements[j].childNodes[0].nodeValue == "http://activitystrea.ms/schema/1.0/post") {
+										cb(collections[i].attributes.getNamedItem('href').nodeValue);
+									}
+								}
 							}
 						}
 					}
@@ -125,7 +130,7 @@ var PuSH = function() {
 			}
 		});
 	}
-	push.connect(userAddress, cb) {
+	push.connect = function(userAddress, cb) {
 		getPostsPuSH(userAddress, function(postsPuSH) {
 			push.url = postsPuSH;
 			cb();
@@ -134,4 +139,4 @@ var PuSH = function() {
 	
 	return push;
 }
-PuSH().connect("michielbdejong@identi.ca", function() {alert('hurray!');});
+PuSH().connect("michielbdejong@dev.unhosted.org", function() {alert('hurray!');});
