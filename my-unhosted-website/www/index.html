@@ -1,149 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
-<title>Myfavouritesandwich - An Unhosted demo</title>
-<link rel="stylesheet" href="css/uncompressed/reset.css" />
-<link rel="stylesheet" href="css/uncompressed/text.css" />
-<link rel="stylesheet" href="css/general.css" />
-<link rel="stylesheet" href="css/uncompressed/layout.css" />
-
-<script src="unhosted/config.js" onerror="window.location = '/unhosted/init.php';"></script>
-<script src="unhosted/wallet.js"></script>
-<script src="unhosted/sjcl/sjcl.js"></script>
-<script src="unhosted/base64.js"></script>
-<script src="unhosted/unhosted.js"></script>
-<script>
-
-
-  ////////////////////
- //  global vars:  //
-////////////////////
-
-var unhosted = Unhosted();
-var currentUser;
-var sandwich;
-
-  //////////////////
- // data access: //
-//////////////////
-
-function onload() {
-	unhosted.connect();				//if you get past this, it means the user is logged in.
-	currentUser = unhosted.getUserName();		//see the user address that's logged in.
-	unhosted.get(
-		'favSandwich', 				//key
-		alert('please put in your password'),	//requirePwd 
-		function(ret) {				//cb
-			sandwich = ret;
-			show();				//put values into the DOM.
-		});
-}
-
-function onsave() {
-	sandwich = {ingredients:
-			[document.getElementById('firstIngredient').value,
-			document.getElementById('secondIngredient').value]
-		};
-	unhosted.set(
-		'favSandwich', 
-		sandwich,//
-		function() {//cb
-			unhosted.get(//double check that it was saved successfully.
-				'favSandwich',
-				function() {
-					sandwich = ret;
-					show();		//update the DOM.
-				});
-		});	//save newly set ingredients.
-}
-
-function onclose() {
-	unhosted.close();			//after this, the user is logged out.
-}
-
-function goCrypto() {
-	unhosted.goCrypto(
-		document.getElementById('pwd1').value,
-		function() {//callback in case this is the first time
-			document.getElementById('pwd2').visible=true;
-			return (document.getElementById('pwd1').value == document.getElementById('pwd2').value);
-			});
-}
-  /////////////////////
- //  presentation:  //
-/////////////////////
-
-function show() {
-	if(!sandwich) {
-		sandwich = {ingredients:['', '']};
-	}
-	document.getElementById('showFirstIngredient').innerHTML = sandwich.ingredients[0];
-	document.getElementById('showSecondIngredient').innerHTML = sandwich.ingredients[1];
-	document.getElementById('firstIngredient').value = sandwich.ingredients[0];
-	document.getElementById('secondIngredient').value = sandwich.ingredients[1];
-	document.getElementById('currentUser').innerHTML =
-		'Current user is <strong>'
-		+currentUser
-		+'</strong> [<a onclick="onclose();">Close</a>]'
-		+' <input type="password" id="pwd1">'
-		+' <input type="submit" value="Go crypto" onclick="goCrypto();">';
-}
-
-</script>
-</head>
-<body onload="onload();">
-<div class="preload"></div>
-<div class="preload2"></div>
-<div id="preheader"></div>
-<div id="plateContainer">
-	<figure id="plate"></figure>
+<html>
+<body>
+<div align="center">
+<h1>Federoni</h1>
+<img src="halloweenMafiaHat_source_Amazon_Costume_Alibi.jpg">
+<h2>Federated only. We are family.</h2>
 </div>
-<div id="mainWrap">
-	<div id="unlockedView">
-		<div id="preheader">
-			<span>
-				<span id="currentUser"></span>
-			</span>
-		</div>
-			
-		<header class="data">
-			<p>My favourite sandwich has <strong><span id="showFirstIngredient"></span></strong> and 
-				<strong><span id="showSecondIngredient"></span></strong> on it</p>
-			<input id="firstIngredient" name="firstIngredient" onfocus="if(this.value=='1st ingredient'){this.className='formfocus'; this.value=''}" onblur="if(!this.value){this.className='formblur'; this.value='1st ingredient'}" type="text" value="1st ingredient"/>
-			<input id="secondIngredient" name="secondIngredient" onfocus="if(this.value=='2nd ingredient'){this.className='formfocus'; this.value=''}" onblur="if(!this.value){this.className='formblur'; this.value='2nd ingredient'}" type="text" value="2nd ingredient"/>
-					
-			<input class="submitingredients" name="submit" type="submit" value="Submit!" onclick="onsave();"/>
-		</header>
-	</div>
-	<div id="footerSpacer"></div>					
-	<footer>
-		<div class="wrapper">
-		<div id="leftcolumn">
-			<h3>So... what is this all about?</h3>
-			<p>
-				This is a fictional site that demonstrates the unhosted architecture, a tutorial, so you can take a look at the code to understand how to change this app into something more interesting. View the application source code <a href="https://github.com/unhosted/unhosted/blob/master/my-unhosted-website/www/index.html" target="_blank">here</a>.
-			</p>
-			<p>
-				<strong>myfavouritesandwich.org is not a commercial website, nor is it affiliated with any trademark</strong>
-			</p>
-		</div>
-		<figure id="island"></figure>
-		<div id="rightcolumn">
-			<h3>What is Unhosted?</h3>
-			<p>
-				<strong>Unhosted is a project for strengthening free software against hosted software. 
-				</strong>
-				An unhosted web app is only source code. Dynamic data is encrypted and decentralised, to per-user storage nodes. This benefits <strong>free software</strong>, as well as <strong>scalability</strong>, <strong>robustness</strong>, and <strong>online privacy</strong>.
-			</p>
-			<p>
-				<strong>Check it out at <a href="http://www.unhosted.org">http://www.unhosted.org/</a></strong>
-			</p>
-		</div>
-		<div class="clear">
-		</div>				
-	</footer>
-</div>
+Federoni is the web's first federated-only social surname. 
+The Federoni family does not in itself form a social network. There is no
+social
+ web 2.0
+ application "behind"
+this page, so to speak. You cannot enter into this website and see what various Federoni family members are doing. But you can interact
+with members of the Federoni family if you happen to see them on identi.ca, and on other OStatus-compliant social networks.
+Since Federoni is not in itself a social network application, if you were to become a member of our family, you would need to use an
+ unhosted social app to interact with others on the federated social web and operate under your Federoni identity. 
+We are currently developing these, and hope to launch the necessary protocols in 
+version 0.2 of the unhosted protocol stack, which will come out in October 2011. If you want to help develop this, contact 
+the unhosted project on <a href="http://www.unhosted.org/">www.unhosted.org</a>. The only way to become a member of the Federoni family, 
+is through your involvement (in whichever way) in the unhosted project.
 </body>
 </html>
