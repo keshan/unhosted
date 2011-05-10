@@ -2,10 +2,36 @@
 <service xmlns="http://www.w3.org/2007/app" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:activity="http://activitystrea.ms/spec/1.0/">
  <workspace>
   <atom:title>Main</atom:title>
-  <collection href="http://dev.unhosted.org/atom/michielbdejong.atom">
+  <collection href="http://federoni.org/atom/michielbdejong.atom">
    <atom:title>michielbdejong timeline</atom:title>
    <accept>application/atom+xml;type=entry</accept>
    <activity:verb>http://activitystrea.ms/schema/1.0/post</activity:verb>
   </collection>
  </workspace>
+</service>
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="http://www.w3.org/2007/app" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:activity="http://activitystrea.ms/spec/1.0/">
+ <workspace>
+  <atom:title>Main</atom:title>
+  <collection href="http://identi.ca/api/statuses/user_timeline/425878.atom">
+   <atom:title>michielbdejong timeline</atom:title>
+   <accept>application/atom+xml;type=entry</accept>
+   <activity:verb>http://activitystrea.ms/schema/1.0/post</activity:verb>
+</collection>
+  <collection href="http://identi.ca/api/statusnet/app/subscriptions/425878.atom">
+   <atom:title>michielbdejong subscriptions</atom:title>
+   <accept>application/atom+xml;type=entry</accept>
+   <activity:verb>http://activitystrea.ms/schema/1.0/follow</activity:verb>
+</collection>
+  <collection href="http://identi.ca/api/statusnet/app/favorites/425878.atom">
+   <atom:title>michielbdejong favorites</atom:title>
+   <accept>application/atom+xml;type=entry</accept>
+   <activity:verb>http://activitystrea.ms/schema/1.0/favorite</activity:verb>
+</collection>
+  <collection href="http://identi.ca/api/statusnet/app/memberships/425878.atom">
+   <atom:title>michielbdejong memberships</atom:title>
+   <accept>application/atom+xml;type=entry</accept>
+   <activity:verb>http://activitystrea.ms/schema/1.0/join</activity:verb>
+</collection>
+</workspace>
 </service>
