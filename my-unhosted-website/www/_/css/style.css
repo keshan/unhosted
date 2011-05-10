@@ -1,0 +1,79 @@
+#toplight{
+   background: url('./img/headerback.png') repeat-x left top;
+    height: 450px;
+    min-height: 450px;
+    overflow: hidden;
+    width: 200px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    z-index: -200;
+    }
+.wrapper { 
+        display: block;
+        margin: 0 auto;
+        width: 960px;
+        
+        }
+
+/*
+//  HEADER STYLES
+*/
+    
+header{
+    display: block;
+    position: relative;
+    
+    width: 100%;
+    
+}
+ 
+    header h1{ 
+    	position: relative;
+    	top: -20px;
+        display: block;
+        height: 430px;
+        font-weight:bold;
+        text-indent: -5000px;
+        margin: 0 auto;
+        background: url('./img/federoni.jpg') no-repeat center top;
+        width: 800px;
+        }
+        header h2{ 
+            text-indent: -5000px;
+            }
+        
+  
+/*
+// INTRO STYLES
+*/
+
+        article#introduction{
+        color: #57544d;;
+           width: 640px;
+           display: block;
+           margin: 0 auto;
+           text-shadow: 0px 1px 0px #c4c3c1;
+          
+        }
+        
+	        article#introduction a{
+	        	color: #8a2550;
+	        	font-weight: bold;
+	        	text-decoration: none;
+	          	text-shadow: 0px 1px 0px #c4c3c1;
+	          
+	        }
+	        	article#introduction a:hover{
+	        		text-decoration: underline; 
+	        	}
+	        	
+	        	#introduction h3{
+	        		font-size: 18px;
+	        	
+	        	}
+         
+         
+
+.clear{ clear: both;}
