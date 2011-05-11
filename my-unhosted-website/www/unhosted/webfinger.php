@@ -1,25 +1,7 @@
 <?php
-
-require_once('config.php');
-
-if(isset($_GET['q'])) {
-	$userName = explode('@', $_GET['q']);
-	$userName = $userName[0];
-	if(substr($userName, 0, 5) == 'acct:') {//still not sure if the 'acct:' prefix is SHOULD or MUST in lrrd - accepting with and without.
-		$userName = substr($userName, 5);
-	}
-	header('Content-Type: application/xml+xrd');
-	//header('Content-Type: text/xml');
-
-	echo "<?xml version='1.0' encoding='UTF-8'?>\n";
-	echo "<XRD xmlns='http://docs.oasis-open.org/ns/xri/xrd-1.0'\n"; 
-	echo "      xmlns:hm='http://host-meta.net/xrd/1.0'>\n";
-	echo "  <hm:Host xmlns='http://host-meta.net/xrd/1.0'>" . UnhostedSettings::domain . "</hm:Host>\n";
-	echo "  <Link rel='http://unhosted.org/spec/dav/0.1'\n";
-	echo "      href='http://" . UnhostedSettings::domain . "/'>\n";
-	echo "  </Link>\n";
-	echo "  <Link rel='http://apinamespace.org/atom' type='application/atomsvc+xml' href='http://" . UnhostedSettings::domain . "/atom/$userName.xml'>\n";
-	echo "    <Property type='http://apinamespace.org/atom/username'>$userName</Property>\n";
-	echo "  </Link>\n";
-	echo "</XRD>\n";
-}
+$userName=explode('@',$_GET['q']);
+$userName=explode(':',$userName[0]);
+$userName=$userName[1];
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+?>
+<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0"><Subject>acct:<?=$userName?>@federoni.org</Subject><Alias>http://federoni.org/user/425878</Alias><Alias>http://federoni.org/<?=$userName?></Alias><Link rel="http://webfinger.net/rel/profile-page" type="text/html" href="http://federoni.org/<?=$userName?>"></Link><Link rel="http://microformats.org/profile/hcard" type="text/html" href="http://federoni.org/<?=$userName?>/hcard"></Link><Link rel="http://gmpg.org/xfn/11" type="text/html" href="http://federoni.org/<?=$userName?>"></Link><Link rel="describedby" type="application/rdf+xml" href="http://federoni.org/<?=$userName?>/foaf"></Link><Link rel="http://apinamespace.org/atom" type="application/atomsvc+xml" href="http://federoni.org/atom/<?=$userName?>.xml"><Property type="http://apinamespace.org/atom/username"><?=$userName?></Property></Link><Link rel="http://apinamespace.org/twitter" href="https://federoni.org/api/"><Property type="http://apinamespace.org/twitter/username"><?=$userName?></Property></Link><Link rel="http://schemas.google.com/g/2010#updates-from" href="http://federoni.org/atom/425878.atom" type="application/atom+xml"></Link><Link rel="salmon" href="http://federoni.org/unhosted/salmon/user/425878"></Link><Link rel="http://salmon-protocol.org/ns/salmon-replies" href="http://federoni.org/unhosted/salmon/user/425878"></Link><Link rel="http://salmon-protocol.org/ns/salmon-mention" href="http://federoni.org/unhosted/salmon/user/425878"></Link><Link rel="magic-public-key" href="data:application/magic-public-key,RSA.lT5HKnGI83U0k-TDOFPQY8BZNzaDYU1-3Lwir4eu9K8NtiG4qqAbJGp9DY5S1v2VdPjtoSimUMQji5sZlVCluSLJulvFAfx5MIB9wTfgxhP8IGWrD89Ubm5IvE7aRe8P44ZBwpWWu126_5pMlKd_3wU0huURmuj3ZIhyi4ZiyFE=.AQAB"></Link><Link rel="http://ostatus.org/schema/1.0/subscribe" template="http://federoni.org/unhosted/ostatussub?profile={uri}"></Link><Link rel="http://specs.openid.net/auth/2.0/provider" href="http://federoni.org/<?=$userName?>"></Link></XRD>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom" xmlns:thr="http://purl.org/syndication/thread/1.0" xmlns:georss="http://www.georss.org/georss" xmlns:activity="http://activitystrea.ms/spec/1.0/" xmlns:media="http://purl.org/syndication/atommedia" xmlns:poco="http://portablecontacts.net/spec/1.0" xmlns:ostatus="http://ostatus.org/schema/1.0" xmlns:statusnet="http://status.net/schema/api/1/">
+ <generator uri="http://status.net" version="0.9.7">StatusNet</generator>
+ <id>http://federoni.org/api/statuses/user_timeline/425878.atom</id>
+ <title>michielbdejong timeline</title>
+ <subtitle>Updates from michielbdejong on Identi.ca!</subtitle>
+ <logo>http://avatar.federoni.org/425878-96-20110427110559.jpeg</logo>
+ <updated>2011-05-10T13:07:46+00:00</updated>
+<author>
+ <activity:object-type>http://activitystrea.ms/schema/1.0/person</activity:object-type>
+ <uri>http://federoni.org/user/425878</uri>
+ <name>michielbdejong</name>
+ <link rel="alternate" type="text/html" href="http://federoni.org/michielbdejong"/>
+ <link rel="avatar" type="image/jpeg" media:width="480" media:height="480" href="http://avatar.federoni.org/425878-480-20110427110559.jpeg"/>
+ <link rel="avatar" type="image/jpeg" media:width="96" media:height="96" href="http://avatar.federoni.org/425878-96-20110427110559.jpeg"/>
+ <link rel="avatar" type="image/jpeg" media:width="48" media:height="48" href="http://avatar.federoni.org/425878-48-20110427110559.jpeg"/>
+ <link rel="avatar" type="image/jpeg" media:width="24" media:height="24" href="http://avatar.federoni.org/425878-24-20110427110559.jpeg"/>
+ <georss:point>52.52437 13.41053</georss:point>
+ <poco:preferredUsername>michielbdejong</poco:preferredUsername>
+ <poco:displayName>Michiel de Jong</poco:displayName>
+ <poco:note>Lived in Bali last winter and was 'the guy that did unhosted'. Now live in Berlin and proud to be just one of many 'people who do unhosted'.</poco:note>
+ <poco:address>
+  <poco:formatted>Berlin</poco:formatted>
+</poco:address>
+ <poco:urls>
+  <poco:type>homepage</poco:type>
+  <poco:value>http://www.unhosted.org/</poco:value>
+  <poco:primary>true</poco:primary>
+</poco:urls>
+ <statusnet:profile_info local_id="425878"></statusnet:profile_info>
+</author>
+<!--Deprecation warning: activity:subject is present only for backward compatibility. It will be removed in the next version of StatusNet.-->
+<activity:subject>
+ <activity:object-type>http://activitystrea.ms/schema/1.0/person</activity:object-type>
+ <id>http://federoni.org/user/425878</id>
+ <title>Michiel de Jong</title>
+ <link rel="alternate" type="text/html" href="http://federoni.org/michielbdejong"/>
+ <link rel="avatar" type="image/jpeg" media:width="480" media:height="480" href="http://avatar.federoni.org/425878-480-20110427110559.jpeg"/>
+ <link rel="avatar" type="image/jpeg" media:width="96" media:height="96" href="http://avatar.federoni.org/425878-96-20110427110559.jpeg"/>
+ <link rel="avatar" type="image/jpeg" media:width="48" media:height="48" href="http://avatar.federoni.org/425878-48-20110427110559.jpeg"/>
+ <link rel="avatar" type="image/jpeg" media:width="24" media:height="24" href="http://avatar.federoni.org/425878-24-20110427110559.jpeg"/>
+ <georss:point>52.52437 13.41053</georss:point>
+ <poco:preferredUsername>michielbdejong</poco:preferredUsername>
+ <poco:displayName>Michiel de Jong</poco:displayName>
+ <poco:note>Lived in Bali last winter and was 'the guy that did unhosted'. Now live in Berlin and proud to be just one of many 'people who do unhosted'.</poco:note>
+ <poco:address>
+  <poco:formatted>Berlin</poco:formatted>
+</poco:address>
+ <poco:urls>
+  <poco:type>homepage</poco:type>
+  <poco:value>http://www.unhosted.org/</poco:value>
+  <poco:primary>true</poco:primary>
+</poco:urls>
+ <statusnet:profile_info local_id="425878"></statusnet:profile_info>
+</activity:subject>
+ <link href="http://federoni.org/michielbdejong" rel="alternate" type="text/html"/>
+ <link href="http://federoni.org/main/sup#425878" rel="http://api.friendfeed.com/2008/03#sup" type="application/json"/>
+ <link href="http://federoni.org/main/push/hub" rel="hub"/>
+ <link href="http://federoni.org/main/salmon/user/425878" rel="salmon"/>
+ <link href="http://federoni.org/main/salmon/user/425878" rel="http://salmon-protocol.org/ns/salmon-replies"/>
+ <link href="http://federoni.org/main/salmon/user/425878" rel="http://salmon-protocol.org/ns/salmon-mention"/>
+ <link href="http://federoni.org/api/statuses/user_timeline/425878.atom" rel="self" type="application/atom+xml"/>
+<entry>
+ <activity:object-type>http://activitystrea.ms/schema/1.0/note</activity:object-type>
+ <id>http://federoni.org/notice/73100626.html</id>
+ <title>Welcome to the Federoni family. Launching http://www.federoni.org/ - our 'unhosted social demo app'</title>
+ <content type="html">Welcome to the Federoni family. Launching &lt;a href=&quot;http://www.federoni.org/&quot; title=&quot;http://www.federoni.org/&quot; rel=&quot;nofollow external&quot;&gt;http://www.federoni.org/&lt;/a&gt; - our 'unhosted social demo app'</content>
+ <link rel="alternate" type="text/html" href="http://federoni.org/notice/73100626.html"/>
+ <activity:verb>http://activitystrea.ms/schema/1.0/post</activity:verb>
+ <published>2011-05-10T13:00:49+00:00</published>
+ <updated>2011-05-10T13:00:49+00:00</updated>
+ <link rel="ostatus:conversation" href="http://federoni.org/conversation/70720831"/>
+ <georss:point>52.52437 13.41053</georss:point>
+ <link rel="self" type="application/atom+xml" href="http://federoni.org/api/statuses/show/73100626.atom"/>
+ <link rel="edit" type="application/atom+xml" href="http://federoni.org/api/statuses/show/73100626.atom"/>
+ <statusnet:notice_info local_id="73100626" source="web"></statusnet:notice_info>
+</entry>
+</feed>
