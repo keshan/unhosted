@@ -1,0 +1,27 @@
+<html>
+<head>
+<script src="/unhosted/config.js"></script>
+<script src="/unhosted/wallet.js"></script>
+<script>
+gup = function(paramName) {
+	var regex = new RegExp("[\\?&]"+paramName+"=([^&#]*)");
+	var results = regex.exec(window.location.href);
+	if(results) {
+		return results[1];
+	}
+	return null;
+}
+
+onload = function() {	
+	var wallet = getWallet();
+	wallet.davToken = gup("token");
+	setWallet(wallet);                              
+	window.location = config.appUrl;
+}
+onload();//no idea why this is necessary, i'm obviously overlooking something here.
+</script>
+</head>
+<body onload="onload();">
+Redirecting...
+</body>
+</html>
