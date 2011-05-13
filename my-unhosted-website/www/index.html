@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/general.css" />
 <link rel="stylesheet" href="css/uncompressed/layout.css" />
 
-<script src="unhosted/config.js" onerror="window.location='/unhosted/install.php';"></script>
+<script src="unhosted/config.js"></script>
 <script src="unhosted/wallet.js"></script>
 <script src="unhosted/sjcl/sjcl.js"></script>
 <script src="unhosted/base64.js"></script>
@@ -109,7 +109,7 @@ function goCrypto() {
 
 function show() {
 	if(!sandwich) {
-		sandwich = {ingredients:['1st ingredient', '2nd ingredient']};
+		sandwich = {ingredients:['', '']};
 	}
 	document.getElementById('showFirstIngredient').innerHTML = sandwich.ingredients[0];
 	document.getElementById('showSecondIngredient').innerHTML = sandwich.ingredients[1];
