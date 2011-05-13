@@ -6,7 +6,7 @@ var DAV = function() {
 	var dav = {}
 	keyToUrl = function(key, wallet) {
 		var userAddressParts = wallet.userAddress.split("@");
-		var resource = document.domain;
+		var resource = config.dataScope;
 		var url = wallet.davBaseUrl
 			+"webdav/"+userAddressParts[1]
 			+"/"+userAddressParts[0]
