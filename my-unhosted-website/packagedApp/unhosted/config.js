@@ -1,4 +1,4 @@
-var appBaseUrl = 'chrome-extension://gdkemcflfdajofefmfdbglmkkdjdbnbn';
+var appBaseUrl = 'chrome-extension://icnlmeafeacofpkfbaaphcknoclngkdh';
 var installationType = 'app';
 
 var config = {
