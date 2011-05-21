@@ -1,5 +1,7 @@
+<!doctype html>
 <html>
 <head>
+<script src="/jQuery/jquery-1.6.1.min.js"></script>
 <script src="/unhosted/config.js"></script>
 <script src="/unhosted/wallet.js"></script>
 <script>
@@ -12,16 +14,16 @@ gup = function(paramName) {
 	return null;
 }
 
-onload = function() {	
+$(document).ready(function() {	
 	var wallet = getWallet();
 	wallet.davToken = gup("token");
 	setWallet(wallet);                              
 	window.location = config.appUrl;
-}
-onload();//no idea why this is necessary, i'm obviously overlooking something here.
+});
+
 </script>
 </head>
-<body onload="onload();">
+<body>
 Redirecting...
 </body>
 </html>

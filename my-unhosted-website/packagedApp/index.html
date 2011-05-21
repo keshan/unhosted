@@ -9,12 +9,19 @@
 <link rel="stylesheet" href="css/general.css" />
 <link rel="stylesheet" href="css/uncompressed/layout.css" />
 
-<script src="unhosted/config.js"></script>
+<script src="/jQuery/jquery-1.6.1.min.js"></script>
+<script src="unhosted/config.js" onerror="window.location='/unhosted/install.php';"></script>
 <script src="unhosted/wallet.js"></script>
 <script src="unhosted/sjcl/sjcl.js"></script>
 <script src="unhosted/base64.js"></script>
 <script src="unhosted/unhosted.js"></script>
 <script>
+$(document).ready(function() {
+	if (window.location != config.appUrl) {
+		window.location = config.appUrl;
+	}
+	start();
+});
 
   ////////////////////
  //  global vars:  //
@@ -28,7 +35,7 @@ var sandwich;
  // data access: //
 //////////////////
 
-function onload() {
+function start() {
 	unhosted.connect();						//if you get past this, it means the user is logged in.
 	currentUser = unhosted.getUserName();				//see the user address that's logged in.
 	unhosted.get(
@@ -82,7 +89,7 @@ function goCrypto() {
 			function() {
 				document.getElementById('pwd1').type = "hidden"; 
 				document.getElementById('goCrypto').type = "hidden"; 
-				onload();
+				start();
 			});
 	} else {
 		if (document.getElementById('pwd1').value == document.getElementById('pwd2').value) {
@@ -130,7 +137,7 @@ function show() {
 
 </script>
 </head>
-<body onload="onload();">
+<body>
 <div class="preload"></div>
 <div class="preload2"></div>
 <div id="preheader"></div>
@@ -148,10 +155,9 @@ function show() {
 		<header class="data">
 			<p>My favourite sandwich has <strong><span id="showFirstIngredient"></span></strong> and 
 				<strong><span id="showSecondIngredient"></span></strong> on it</p>
-			<input id="firstIngredient" name="firstIngredient" onfocus="if(this.value=='1st ingredient'){this.className='formfocus'; this.value=''}" onblur="if(!this.value){this.className='formblur'; this.value='1st ingredient'}" type="text" value="1st ingredient"/>
-			<input id="secondIngredient" name="secondIngredient" onfocus="if(this.value=='2nd ingredient'){this.className='formfocus'; this.value=''}" onblur="if(!this.value){this.className='formblur'; this.value='2nd ingredient'}" type="text" value="2nd ingredient"/>
-					
-			<input class="submitingredients" name="submit" type="submit" value="Submit!" onclick="onsave();"/>
+			<input id="firstIngredient" placeholder='1st ingredient' type="text"/>
+			<input id="secondIngredient" placeholder='2nd ingredient' type="text"/>	
+			<input class="submitingredients" type="submit" value="Submit!" onclick="onsave();"/>
 		</header>
 	</div>
 	<div id="footerSpacer"></div>					

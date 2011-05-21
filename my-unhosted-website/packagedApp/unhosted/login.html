@@ -9,29 +9,54 @@
 <link rel="stylesheet" href="/css/general.css" />
 <link rel="stylesheet" href="/css/uncompressed/layout.css" />
 
+<script src="/jQuery/jquery-1.6.1.min.js"></script>
 <script src="/unhosted/config.js"></script>
 <script src="/unhosted/wallet.js"></script>
 <script src="/unhosted/webfinger.js"></script>
 <script>
 function takeMeIn(userAddress, haveAccount) {
 	if(haveAccount) {
-		Webfinger().getDavBaseUrl(userAddress, 0, 1, function(davBaseUrl) {
-			setWallet({
-				"userAddress": userAddress,
-				"davBaseUrl": davBaseUrl
-				});
-			window.location = davBaseUrl + "oauth2/auth"
-				+ "?client_id="+encodeURIComponent(config.clientId)
-				+ "&redirect_uri="+encodeURIComponent(config.callbackUrl)
-				+ "&scope="+encodeURIComponent(config.dataScope)
-				+ "&response_type=token"
-				+ "&user_address="+encodeURIComponent(userAddress);
-		});
+		Webfinger().getDavBaseUrl(userAddress, 0, 1, 
+			function() {
+				alert(userAddress+' does not seem to be a valid unhosted account');
+			},
+			function(davBaseUrl) {
+				setWallet({
+					"userAddress": userAddress,
+					"davBaseUrl": davBaseUrl
+					});
+				window.location = davBaseUrl + "oauth2/auth"
+					+ "?client_id="+encodeURIComponent(config.clientId)
+					+ "&redirect_uri="+encodeURIComponent(config.callbackUrl)
+					+ "&scope="+encodeURIComponent(config.dataScope)
+					+ "&response_type=token"
+					+ "&user_address="+encodeURIComponent(userAddress);
+			});
 	} else {
 		setWallet({
 			"userAddress": userAddress
 			});
 		window.location = config.registerUrl;
+	}
+}
+
+function installCallback(result) {
+	alert('great - display a message, or redirect to a launch page');
+}
+
+function errorCallback(result) {
+	alert('whoops - result.code and result.message have details');
+}
+
+function install() {
+	if(navigator && navigator.apps) {
+		navigator.apps.install({
+			url: "http://example.com/app/mozilla.webapp",
+			onsuccess: installCallback,
+			onerror: errorCallback
+		});
+	} else {
+		alert('please install the mozilla open web apps extension in your browser first');
 	}
 }
 </script>

@@ -4,8 +4,8 @@
 
 var DAV = function() {
 	var dav = {}
-	keyToUrl = function(key, wallet) {
-		var userAddressParts = wallet.userAddress.split("@");
+	var keyToUrl = function(userAddress, key, wallet) {
+		var userAddressParts = userAddress.split("@");
 		var resource = config.dataScope;
 		var url = wallet.davBaseUrl
 			+"webdav/"+userAddressParts[1]
@@ -14,45 +14,38 @@ var DAV = function() {
 			+"/"+key;
 		return url;
 	}
-	dav.get = function(key, cb) {
+	dav.get = function(userAddress, key, cb) {
 		var wallet = getWallet();
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", keyToUrl(key, wallet), true);
-		xhr.onreadystatechange = function() {
-			if(xhr.readyState == 4) {
-				if(xhr.status == 200) {
-					cb(xhr.responseText);
-				} else if(xhr.status == 404) {
+		$.ajax({
+			url: keyToUrl(userAddress, key, wallet) + '?ts'+new Date ().getTime ()+'=0',
+			cache: false,
+			dataType: "text",
+			success: function(text){
+				cb(text);
+			},
+			error: function(xhr) {
+				if(xhr.status == 404) {
 					cb(null);
 				} else {
-					alert("error: got status "+xhr.status+" when doing basic auth GET on url "+keyToUrl(key, wallet));
+					alert("error: got status "+xhr.status+" when doing basic auth GET on url "+keyToUrl(userAddress, key, wallet));
 				}
 			}
-		}
-		xhr.send();
+		});
 	}
 	
 	dav.put = function(key, text, cb) {
 		var wallet = getWallet();
-		var xhr = new XMLHttpRequest();
-		
-		//xhr.open("PUT", keyToUrl(key, wallet), true, wallet.userAddress, wallet.davToken);
-		//HACK:
-		xhr.open("PUT", keyToUrl(key, wallet), true);
-		xhr.setRequestHeader("Authorization", "Basic "+Base64.encode(wallet.userAddress +':'+ wallet.davToken));
-		//END HACK.
-
-		xhr.onreadystatechange = function() {
-			if(xhr.readyState == 4) {
-				if(xhr.status != 200 && xhr.status != 201 && xhr.status != 204) {
-					alert("error: got status "+xhr.status+" when doing basic auth PUT on url "+keyToUrl(key, wallet));
-				} else {
-					cb();
-				}
+		$.ajax({
+			url: keyToUrl(wallet.userAddress, key, wallet),
+			type: "PUT",
+			headers: {Authorization: "Basic "+Base64.encode(wallet.userAddress +':'+ wallet.davToken)},
+			fields: {withCredentials: "true"},
+			data: text,
+			success: cb,
+			error: function(xhr) {
+				alert("error: got status "+xhr.status+" when doing basic auth PUT on url "+keyToUrl(wallet.userAddress, key, wallet));
 			}
-		}
-		xhr.withCredentials = "true";
-		xhr.send(text);
+		});
 	}
 	return dav;
 }
@@ -89,38 +82,43 @@ var Unhosted = function() {
 			allowCreation = "false";
 		}
 		var wallet = getWallet();
-		xhr = new XMLHttpRequest();
-		xhr.open("GET", config.doUrl
-			+"?action=getWallet&userAddress="
-			+encodeURIComponent(wallet.userAddress)
-			+"&pwd="+encodeURIComponent(cryptoPwd)
-			+"&dataScope="+encodeURIComponent(config.dataScope)
-			+"&allowCreation="+allowCreation, true);
-		xhr.onreadystatechange = function() {
-			if(xhr.readyState == 4) {
-				if(xhr.status == 200) {
-					try {
-						
-						var wallet2 = JSON.parse(xhr.responseText);
-						wallet.cryptoPwd = wallet2.cryptoPwd;
-						setWallet(wallet);
-						onSuccess(); 
-					} catch(e) {
-						onOtherError();
-					}
-				} else if(xhr.status == 404) {
+		$.ajax({
+			url: config.doUrl,
+			type: "POST",
+			data: {
+				action: "getWallet",
+				userAddress: wallet.userAddress,
+				pwd: cryptoPwd,
+				dataScope: config.dataScope,
+				allowCreation: allowCreation
+			},
+			success: function(text) {
+				try {	
+					var wallet2 = JSON.parse(text);
+					wallet.cryptoPwd = wallet2.cryptoPwd;
+					setWallet(wallet);
+					onSuccess();
+				} catch(e) {
+					onOtherError();
+				}
+			},
+			error: function(xhr) {
+				if(xhr.status == 404) {
 					onDoesntExist();
 				} else {
 					onOtherError();
 				}
 			}
-		}
-		xhr.send();
+		});
 	}
 	unhosted.get = function(key, requirePwd, cb) {
 		var wallet = getWallet();
+		return unhosted.getOther(wallet.userAddress, key, requirePwd, cb);
+	}
+	unhosted.getOther = function(userAddress, key, requirePwd, cb) {
+		var wallet = getWallet();
 		if(wallet.cryptoPwd == undefined) {
-			dav.get(key, function(str) {
+			dav.get(userAddress, key, function(str) {
 				try {
 					cb(JSON.parse(str));
 				} catch(e) {
@@ -128,8 +126,12 @@ var Unhosted = function() {
 				}
 			});
 		} else {
-			dav.get(key, function(str) {
-				cb(JSON.parse(sjcl.decrypt(wallet.cryptoPwd, str)));
+			dav.get(userAddress, key, function(str) {
+				if(str == null) {
+					cb(null);
+				} else {
+					cb(JSON.parse(sjcl.decrypt(wallet.cryptoPwd, str)));
+				}
 			});
 		}
 	}
