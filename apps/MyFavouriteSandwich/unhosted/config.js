@@ -1,4 +1,3 @@
-var appBaseUrl = document.location.protocol+'://'+document.location.domain;
 var config = {
 	appUrl: appBaseUrl + '/',
 	doUrl: appBaseUrl + '/unhosted/do.php',
