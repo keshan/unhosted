@@ -1,21 +1,42 @@
 <html>
 <script src="../jquery.js"></script>
 <script>
-$(document).ready(function() {
-	$.ajax({
-		url: 'check_php.php',
-		success: function(txt) {
-			if(txt == 'ok') {
-				$('#installPhp').hide();
-			}
-		}
-	});
+function phpOk() {
 	$.ajax({
 		url: 'install_wallet.php',
 		success: function(txt) {
 			if(txt == 'ok') {
 				$('#installWallet').hide();
 				$('#walletOk').html('OK');
+			}
+		}
+	});
+	$.ajax({
+		url: '/.well-known/host-meta',
+		success: function(txt) {
+			$('#installHostMeta').hide();
+			hostMetaOk();
+		}
+	});
+	
+}
+function hostMetaOk() {
+	$.ajax({
+		url: 'install_identity.php',
+		success: function(txt) {
+			if(txt == 'ok') {
+				$('#identityOk').html('OK');
+			}
+		}
+	});
+}
+$(document).ready(function() {
+	$.ajax({
+		url: 'check_php.php',
+		success: function(txt) {
+			if(txt == 'ok') {
+				$('#installPhp').hide();
+				phpOk();
 			}
 		}
 	});
