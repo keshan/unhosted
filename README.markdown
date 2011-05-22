@@ -11,11 +11,4 @@ and improvements!
 
 You are encouraged to transform the example app into your own unhosted web app
 
-If you don't have a webserver, you can still use this SDK to create a packaged app. Otherwise, and unless you already have one, follow HELP-GETTING-A-SERVER to get a server with:
-	- apache
-	- php
-	- root access
-	- a (sub-)domain pointing to it, e.g. http://server.acme.com/, which you can use.
-
-Follow HELP-UPLOADING-THIS-SDK to upload this SDK to it.
-
+To install, upload this directory to a webserver and browse to it.
