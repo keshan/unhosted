@@ -1,5 +1,19 @@
 <html>
+<script src="jquery.js"></script>
 <script>
-document.location = 'install/';
+$.ajax({
+	url: 'admin/check.php',
+	success: function(txt) {
+		if(txt == 'ok') {
+			document.location = 'admin/';
+		}
+	}
+});
 </script>
+<body>
+It looks like you don't have PHP installed. That means you can't use the automated installation script. You have two options:
+<ul>
+<li> Install PHP (<a href="admin/howto-install-php.html">learn how</a>).
+<li> Use the <a href="apps/MyFavouriteSandwich/">PHP-less demo app</a>.
+</ul>
 </html>

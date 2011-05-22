@@ -1,0 +1,7 @@
+Please log in to #unhosted on irc.freenode.net so we can help you get this working on your server.
+======================
+
+This code is published under the AGPL license. It's still quite young, and very much in flux. It should be considered 'alpha'. We welcome your suggestions
+and improvements!
+
+To install, just upload this directory to a webserver. If you don't have a webserver, then install one on your localhost. You will still be able to publish packaged apps with it.
