@@ -7,6 +7,14 @@ $(document).ready(function() {
 		success: function(txt) {
 			if(txt == 'ok') {
 				$('#installPhp').hide();
+			}
+		}
+	});
+	$.ajax({
+		url: 'install_wallet.php',
+		success: function(txt) {
+			if(txt == 'ok') {
+				$('#installWallet').hide();
 				$('#walletOk').html('OK');
 			}
 		}
@@ -20,6 +28,12 @@ $(document).ready(function() {
 <h2>Install PHP</h2>
 <ul>
 <li>sudo apt-get install libapache2-mod-php5</li>
+</ul>
+</div>
+<div id="installWallet">
+<h2>Install Wallet</h2>
+<ul>
+<li>sudo chown -R www-data /var/www/unhosted-subdir</li>
 </ul>
 </div>
 <div id="installHostMeta">
