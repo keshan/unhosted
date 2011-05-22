@@ -1,0 +1,71 @@
+<html>
+<script src="../jquery.js"></script>
+<script>
+$(document).ready(function() {
+	$.ajax({
+		url: 'check_php.php',
+		success: function(txt) {
+			if(txt == 'ok') {
+				$('#installPhp').hide();
+				$('#walletOk').html('OK');
+			}
+		}
+	});
+});
+</script>
+<body>
+<h1>Welcome to the unhosted SDK.</h1>
+<p>This page will help you install the required configuration on your webserver. These instructions assume you are using Apache2 on a Debian server.</p>
+<div id="installPhp">
+<h2>Install PHP</h2>
+<ul>
+<li>sudo apt-get install libapache2-mod-php5</li>
+</ul>
+</div>
+<div id="installHostMeta">
+<h2>Install .well-known/host-meta</h2>
+<ul>
+<li>to install webfinger: sudo ln -s /var/www/unhosted-subdir/.well-known /var/www/.well-known</li>
+</ul>
+</div>
+<div id="installHostMetaCors">
+<h2>Put CORS headers on .well-known/host-meta</h2>
+<ul>
+<li>to install CORS: sudo a2enmod headers</li>
+<li>to activate the .htaccess files, configure something like this <a href="example-apache2.conf">apache config</a>
+</ul>
+</div>
+<div id="installDav">
+<h2>Put DAV on /webdav</h2>
+<ul>
+<li>to install DAV: sudo a2enmod dav_fs</li>
+<li>to activate DAV on the /webdav directory, configure something like this <a href="example-apache2.conf">apache config</a>
+</ul>
+</div>
+<div id="installHttps">
+<h2>Activate https</h2>
+<ul>
+<li>to install CORS: sudo a2enmod ssl</li>
+<li>to activate the https virtual host, configure something like this <a href="example-apache2.conf">apache config</a>
+<li>register an SSL cert, these used to cost money, but can now be obtained for free at www.startssl.com</li>
+<li>upload the three files (cert, key, and chain)
+</ul>
+</div>
+<div id="restartApache">
+<h2>Restart Apache and retry</h2>
+<ul>
+<li>sudo apache2ctl restart</li>
+<li>refresh this page</li>
+</ul>
+</div>
+<h2>Components that should now work</h2>
+<ol>
+<li>Demo app 'My Favourite Sandwich OK</li>
+<li>Demo app 'Apps Launcher' OK</li>
+<li>Wallet service <span id='walletOk'>NO</span></li>
+<li>Identity provider <span id='identityOk'>NO</span></li>
+<li>Storage node <span id="storageOk">NO</span></li>
+<li>Production use (alpha!) <span id="productionOk">NO</span></li>
+</ol></p>
+</body>
+</html>
