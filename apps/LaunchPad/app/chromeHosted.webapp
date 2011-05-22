@@ -1,0 +1,16 @@
+{
+  "name": "My Favourite Sandwich",
+  "description": "A Demo App for the Unhosted Web",
+  "version": "0.1.9",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "urls": [
+      "https://myfavouritesandwich.org/"
+    ],
+    "launch": {
+      "web_url": "https://myfavouritesandwich.org/"
+    }
+  }
+}

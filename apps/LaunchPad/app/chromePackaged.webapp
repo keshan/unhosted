@@ -1,0 +1,14 @@
+{
+  "name": "My Favourite Sandwich",
+  "description": "A Demo App for the Unhosted Web",
+  "version": "0.1.10",
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  }
+}
