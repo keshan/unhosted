@@ -6,7 +6,7 @@
 <title>Myfavouritesandwich - An Unhosted demo</title>
 <link rel="stylesheet" href="/css/uncompressed/reset.css" />
 <link rel="stylesheet" href="/css/uncompressed/text.css" />
-<link rel="stylesheet" href="/css/general.css" />
+<link rel="stylesheet" href="/css/uncompressed/general.css" />
 <link rel="stylesheet" href="/css/uncompressed/layout.css" />
 
 <script src="/jQuery/jquery-1.6.1.min.js"></script>
@@ -78,8 +78,8 @@ function install() {
 		<header>
 			<h1>My Favourite Sandwich</h1>
 			<p>Enter a world of sandwiches...</p>
-			<input id="user" name="unhostedacct" onfocus="if(this.value=='user@provider.org'){this.className='formfocus'; this.value=''}" onblur="if(!this.value){this.className='formblur'; this.value='user@provider.org'}" type="text" value="user@provider.org"/>&nbsp;
-			<input class="submit" name="submit" type="submit" value="Submit!"
+			<input id="user" placeholder="user@provider.org" type="text"/>&nbsp;
+			<input class="submit" type="submit" value="Submit!"
 				 onclick="takeMeIn(document.getElementById('user').value, true);">
 			<a href="register.html">I don't have an account, help me log in</a>
 		</header>
