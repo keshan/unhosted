@@ -4,10 +4,6 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 <title>Myfavouritesandwich - An Unhosted demo</title>
-<link rel="stylesheet" href="css/reset.css" />
-<link rel="stylesheet" href="css/uncompressed/text.css" />
-<link rel="stylesheet" href="css/uncompressed/general.css" />
-<link rel="stylesheet" href="css/uncompressed/layout.css" />
 
 <script src="/jQuery/jquery-1.6.1.min.js"></script>
 <script src="unhosted/config.js" onerror="window.location='/unhosted/install.php';"></script>
@@ -28,21 +24,25 @@ $(document).ready(function() {
 ////////////////////
 
 var unhosted = Unhosted();
-var currentUser;
-var sandwich;
+var viewedUser;
+var publicAlbums;
+var currentAlbum;
 
   //////////////////
  // data access: //
 //////////////////
 
 function start() {
-	unhosted.connect();						//if you get past this, it means the user is logged in.
-	currentUser = unhosted.getUserName();				//see the user address that's logged in.
-	unhosted.get(
-		'favSandwich', 						//key
+	viewedUsername = 'mich@myfavouritesandwich.org';
+	show();
+}
+
+	unhosted.getOther(
+		viewedUsername,
+		'publicAlbums',						//key
 		function() {						//requirePwd 
 			alert('please put in your password');
-			sandwich = null;
+			 = null;
 			show();
 		},
 		//requirePwd 
@@ -52,27 +52,8 @@ function start() {
 		});
 }
 
-function onsave() {
-	sandwich = {ingredients:
-			[document.getElementById('firstIngredient').value,
-			document.getElementById('secondIngredient').value]
-		};
-	unhosted.set(
-		'favSandwich', 
-		sandwich,//
-		function() {//cb
-			unhosted.get(//double check that it was saved successfully.
-				'favSandwich',
-				function() {alert('failed to save!');},
-				function(ret) {
-					sandwich = ret;
-					show();				//update the DOM.
-				});
-		});							//save newly set ingredients.
-}
-
-function onlogout() {
-	unhosted.close();						//after this, the user is logged out.
+function ongo() {
+	currenunhosted.close();						//after this, the user is logged out.
 }
 
 function goCrypto() {
