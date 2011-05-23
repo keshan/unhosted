@@ -1,4 +1,6 @@
-if(file_put_contents("../.well-known/host-meta", "<?xml version='1.0' encoding='UTF-8'?>\n"
+if((file_exists("../identity") || mkdir("../identity"))
+	&& (copy("src/webfinger.php", "../identity/webfinger.php"))
+	&& file_put_contents("../.well-known/host-meta", "<?xml version='1.0' encoding='UTF-8'?>\n"
 	."<XRD xmlns='http://docs.oasis-open.org/ns/xri/xrd-1.0' \n"
 	."\t\txmlns:hm='http://host-meta.net/xrd/1.0'>\n"
 	."\t<hm:Host xmlns='http://host-meta.net/xrd/1.0'>$domain</hm:Host>\n"
