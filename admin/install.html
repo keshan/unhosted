@@ -4,8 +4,8 @@
 function phpOk() {
 	$.ajax({
 		url: 'install_wallet.php',
-		success: function(txt) {
-			if(txt == 'ok') {
+		success: function(data) {
+			if(data == 'ok') {
 				$('#installWallet').hide();
 				$('#walletOk').html('OK');
 			}
@@ -13,18 +13,28 @@ function phpOk() {
 	});
 	$.ajax({
 		url: '/.well-known/host-meta',
-		success: function(txt) {
+		success: function(data, textStatus, jqXHR) {
 			$('#installHostMeta').hide();
-			hostMetaOk();
+			var responseHeaders = jqXHR.getAllResponseHeaders().split("\n");
+			var i;
+			for(i=0; i < responseHeaders.length; i++) {
+				if ((responseHeaders[i].length > 1) && (responseHeaders[i][ responseHeaders[i].length-1 ] == "\r")) {
+					responseHeaders[i] = responseHeaders[i].slice (0,-1); // remove \r if any
+				}
+				if(responseHeaders[i] == "Access-Control-Allow-Origin: *") {
+					$('#installHostMetaCors').hide();
+					hostMetaOk();
+					return;
+				}
+			}
 		}
 	});
-	
 }
 function hostMetaOk() {
 	$.ajax({
 		url: 'install_identity.php',
-		success: function(txt) {
-			if(txt == 'ok') {
+		success: function(data) {
+			if(data == 'ok') {
 				$('#identityOk').html('OK');
 			}
 		}
@@ -33,8 +43,8 @@ function hostMetaOk() {
 $(document).ready(function() {
 	$.ajax({
 		url: 'check_php.php',
-		success: function(txt) {
-			if(txt == 'ok') {
+		success: function(data) {
+			if(data == 'ok') {
 				$('#installPhp').hide();
 				phpOk();
 			}
