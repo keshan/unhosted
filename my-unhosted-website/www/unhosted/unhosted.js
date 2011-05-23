@@ -28,6 +28,7 @@ var DAV = function() {
 					cb(null);
 				} else {
 					alert("error: got status "+xhr.status+" when doing basic auth GET on url "+keyToUrl(userAddress, key, wallet));
+					cb(null);
 				}
 			}
 		});

@@ -5,8 +5,8 @@
 
 <title>Myfavouritesandwich - An Unhosted demo</title>
 
-<script src="/jQuery/jquery-1.6.1.min.js"></script>
-<script src="unhosted/config.js" onerror="window.location='/unhosted/install.php';"></script>
+<script src="jQuery/jquery-1.6.1.min.js"></script>
+<script src="unhosted/config.js"></script>
 <script src="unhosted/wallet.js"></script>
 <script src="unhosted/sjcl/sjcl.js"></script>
 <script src="unhosted/base64.js"></script>
@@ -16,7 +16,7 @@ $(document).ready(function() {
 	if (window.location != config.appUrl) {
 		window.location = config.appUrl;
 	}
-	start();
+	fetchPublicAlbums();
 });
 
   ////////////////////
@@ -24,28 +24,30 @@ $(document).ready(function() {
 ////////////////////
 
 var unhosted = Unhosted();
-var viewedUser;
-var publicAlbums;
-var currentAlbum;
+var collections;
+var currCollIndex;
 
   //////////////////
  // data access: //
 //////////////////
 
 function fetchPublicAlbums() {
-	viewedUsername = $('#viewedUsername').text();
-	currentAlbum = 0;
+	var viewedUsername = $('#viewedUsername').text();
+	currCollIndex = 0;
+			collections = null;
+			show();
+			return;
 	unhosted.getOther(
 		viewedUsername,
 		'publicAlbums',						//key
 		function() {						//requirePwd 
 			alert('please put in your password');
-			publicAlbums = null;
+			collections = null;
 			show();
 		},
 		//requirePwd 
 		function(ret) {						//cb
-			publicAlbums = ret;
+			collections = ret;
 			show();					//put values into the DOM.
 		});
 }
@@ -54,89 +56,72 @@ function fetchPublicAlbums() {
  //  presentation:  //
 /////////////////////
 
-function albumLeft() {
-	currentAlbum--;
+$("#arrowLeft").click(function() {
+	currCollIndex--;
 	show();
-}
-function albumRight() {
-	currentAlbum++;
+});
+$("#arrowRight").click(function() {
+	currCollIndex++;
 	show();
-}
+});
 function show() {
-	if(!publicAlbums) {
-		publicAlbums = [
-			{ingredients:['', ''
-			];
+	if(!collections) {
+		collections = [
+			{
+				name:'food',
+				apps:[
+					{
+						"name": "My Favourite Sandwich",
+						"description": "A Demo App for the Unhosted Web",
+						"version": "0.1.9",
+						"icons": {
+							"16": "icon_16.png",
+							"128": "icon_128.png"
+						},
+						"app": {
+							"urls": [
+								"https://myfavouritesandwich.org/"
+							],
+							"launch": {
+								"web_url": "https://myfavouritesandwich.org/",
+								"local_path": "index.html"
+							}
+						},
+						"developer": {
+							"name": "The Unhosted Dev Community",
+								"url": "http://unhosted.org/"
+						},
+						"installs_allowed_from": [
+							"http://example.com"
+						],
+						"default_locale": "en"
+					}
+				]
+			}];
 	}
-	document.getElementById('showFirstIngredient').innerHTML = sandwich.ingredients[0];
-	document.getElementById('showSecondIngredient').innerHTML = sandwich.ingredients[1];
-	document.getElementById('firstIngredient').value = sandwich.ingredients[0];
-	document.getElementById('secondIngredient').value = sandwich.ingredients[1];
-	document.getElementById('currentUser').innerHTML =
-		'Current user is <strong>'
-		+currentUser
-		+'</strong> [<a onclick="onlogout();">Log out</a>]'
-		+'<br> <input type="hidden" id="pwd1">'
-		+' <input type="hidden" id="pwd2">'
-		+' <input type="hidden" id="goCrypto" value="Go crypto" onclick="goCrypto();">';
-	if(unhosted.getMode() == 'clear') {
-		document.getElementById('pwd1').type = "password"; 
-		document.getElementById('goCrypto').type = "submit"; 
-	}
+	var viewedColl = collections[currCollIndex];
+	$('#currCollName').text = viewedColl.name;
+	$('#app1Image').src = viewedColl.apps[0].icons['128'];
+	$('#app1Name').text = viewedColl.apps[0].name;
 }
-
 </script>
 </head>
 <body>
-<div class="preload"></div>
-<div class="preload2"></div>
-<div id="preheader"></div>
-<div id="plateContainer">
-	<figure id="plate"></figure>
-</div>
-<div id="mainWrap">
-	<div id="unlockedView">
-		<div id="preheader">
-			<span>
-				<span id="currentUser"></span>
-			</span>
-		</div>
-			
-		<header class="data">
-			<p>My favourite sandwich has <strong><span id="showFirstIngredient"></span></strong> and 
-				<strong><span id="showSecondIngredient"></span></strong> on it</p>
-			<input id="firstIngredient" placeholder='1st ingredient' type="text"/>
-			<input id="secondIngredient" placeholder='2nd ingredient' type="text"/>	
-			<input class="submitingredients" type="submit" value="Submit!" onclick="onsave();"/>
-		</header>
+	<div>
+		<p>
+			Viewing public stamp collections of:
+			<input type="text" value="mich@myfavouritesandwich.org">
+			<input type="submit" value="Go!">
+		</p>
 	</div>
-	<div id="footerSpacer"></div>					
-	<footer>
-		<div class="wrapper">
-		<div id="leftcolumn">
-			<h3>So... what is this all about?</h3>
-			<p>
-				This is a fictional site that demonstrates the unhosted architecture, a tutorial, so you can take a look at the code to understand how to change this app into something more interesting. View the application source code <a href="https://github.com/unhosted/unhosted/blob/master/my-unhosted-website/www/index.html" target="_blank">here</a>.
-			</p>
-			<p>
-				<strong>myfavouritesandwich.org is not a commercial website, nor is it affiliated with any trademark</strong>
-			</p>
-		</div>
-		<figure id="island"></figure>
-		<div id="rightcolumn">
-			<h3>What is Unhosted?</h3>
-			<p>
-				<strong>Unhosted is a project for strengthening free software against hosted software. 
-				</strong>
-				An unhosted web app is only source code. Dynamic data is encrypted and decentralised, to per-user storage nodes. This benefits <strong>free software</strong>, as well as <strong>scalability</strong>, <strong>robustness</strong>, and <strong>online privacy</strong>.
-			</p>
-			<p>
-				<strong>Check it out at <a href="http://www.unhosted.org">http://www.unhosted.org/</a></strong>
-			</p>
-		</div>
-		<div class="clear">
-		</div>				
-	</footer>
-</div>
+	<div>
+		<a id="arrowLeft"><h1>&lt;</h1></a>
+		<span>
+			<h1 id="currCollName">currCollName</h1>
+			<img id="app1Image" src="128.png">
+			<div id="app1Name">app1Name</div>
+		</span>
+		<a id="arrowRight"><h1>&gt;</h1></a>
+	</div>
 </body>
 </html>
