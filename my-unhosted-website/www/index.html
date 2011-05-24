@@ -3,125 +3,44 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-<title>Myfavouritesandwich - An Unhosted demo</title>
-
-<script src="jQuery/jquery-1.6.1.min.js"></script>
-<script src="unhosted/config.js"></script>
-<script src="unhosted/wallet.js"></script>
-<script src="unhosted/sjcl/sjcl.js"></script>
-<script src="unhosted/base64.js"></script>
-<script src="unhosted/unhosted.js"></script>
+<title>AppsApp - An Unhosted demo</title>
+<script src="jquery.js"></script>
 <script>
-$(document).ready(function() {
-	if (window.location != config.appUrl) {
-		window.location = config.appUrl;
-	}
-	fetchPublicAlbums();
-});
-
-  ////////////////////
- //  global vars:  //
-////////////////////
-
-var unhosted = Unhosted();
-var collections;
-var currCollIndex;
-
-  //////////////////
- // data access: //
-//////////////////
-
-function fetchPublicAlbums() {
-	var viewedUsername = $('#viewedUsername').text();
-	currCollIndex = 0;
-			collections = null;
-			show();
-			return;
-	unhosted.getOther(
-		viewedUsername,
-		'publicAlbums',						//key
-		function() {						//requirePwd 
-			alert('please put in your password');
-			collections = null;
-			show();
-		},
-		//requirePwd 
-		function(ret) {						//cb
-			collections = ret;
-			show();					//put values into the DOM.
-		});
+if(window.location != 'http://appsapp.org/?user_address=don@federoni.org&view=public') {
+	window.location = 'http://appsapp.org/?user_address=don@federoni.org&view=public';
 }
-
-  /////////////////////
- //  presentation:  //
-/////////////////////
-
-$("#arrowLeft").click(function() {
-	currCollIndex--;
-	show();
-});
-$("#arrowRight").click(function() {
-	currCollIndex++;
-	show();
-});
-function show() {
-	if(!collections) {
-		collections = [
-			{
-				name:'food',
-				apps:[
-					{
-						"name": "My Favourite Sandwich",
-						"description": "A Demo App for the Unhosted Web",
-						"version": "0.1.9",
-						"icons": {
-							"16": "icon_16.png",
-							"128": "icon_128.png"
-						},
-						"app": {
-							"urls": [
-								"https://myfavouritesandwich.org/"
-							],
-							"launch": {
-								"web_url": "https://myfavouritesandwich.org/",
-								"local_path": "index.html"
-							}
-						},
-						"developer": {
-							"name": "The Unhosted Dev Community",
-								"url": "http://unhosted.org/"
-						},
-						"installs_allowed_from": [
-							"http://example.com"
-						],
-						"default_locale": "en"
-					}
-				]
-			}];
+$.ajax({
+	url: 'http://federoni.org/webdav/federoni.org/don/apps/public',
+	dataType: 'text',
+	success: function(dataTxt) {
+		data = JSON.parse(dataTxt);
+		//display first app icon if it is of type hosted:
+		if(data.apps[0].type == 'hosted') {
+			$.ajax({
+				url: 'http://federoni.org/webdav/federoni.org/don/apps/'+data.apps[0].hash+'/manifest.json',
+				dataType: 'text',
+				success: function(manifestTxt) {
+					manifest = JSON.parse(manifestTxt);
+					$('#icon1').attr('src', 
+						'http://federoni.org/webdav/federoni.org/don/apps/'
+						+ data.apps[0].hash + '/' + manifest.icons['128']);
+					$('#link1').attr('href', manifest.app.launch.web_url);
+				},
+				error: function(jqXHR) {
+					alert('oops');
+				}
+			});
+		}
+	},
+	error: function(jqXHR) {
+		alert('oops');
 	}
-	var viewedColl = collections[currCollIndex];
-	$('#currCollName').text = viewedColl.name;
-	$('#app1Image').src = viewedColl.apps[0].icons['128'];
-	$('#app1Name').text = viewedColl.apps[0].name;
-}
+});
 </script>
 </head>
 <body>
-	<div>
-		<p>
-			Viewing public stamp collections of:
-			<input type="text" value="mich@myfavouritesandwich.org">
-			<input type="submit" value="Go!">
-		</p>
-	</div>
-	<div>
-		<a id="arrowLeft"><h1>&lt;</h1></a>
-		<span>
-			<h1 id="currCollName">currCollName</h1>
-			<img id="app1Image" src="128.png">
-			<div id="app1Name">app1Name</div>
-		</span>
-		<a id="arrowRight"><h1>&gt;</h1></a>
-	</div>
+<div>
+<a id="link1" target="_blank"><img id="icon1"></a>
+</div>
 </body>
 </html>
