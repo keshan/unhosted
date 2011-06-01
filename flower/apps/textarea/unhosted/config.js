@@ -1,4 +1,4 @@
-var appBaseUrl = 'http://www.markmyweb.org/flower/apps/TextArea/';
+var appBaseUrl = 'http://www.markmyweb.org/flower/apps/textarea/';
 var homeHiveUrl = 'http://www.markmyweb.org/hive';
 var installationType = 'flower';
 
