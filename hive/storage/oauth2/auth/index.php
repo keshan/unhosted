@@ -5,7 +5,7 @@ function getString($paramName, $from) {
         if(!isset($from[$paramName])) {
                 die("Parameter $paramName not specified");
         }
-        return strtolower($from[$paramName]);
+        return $from[$paramName];
 }
 function getDomain($paramName, $from) {
         $domain = getString($paramName, $from);
@@ -43,43 +43,44 @@ if(count($_POST)) {
 	$clientId = getDomain('client_id', $_GET);
 	$dataScope = getDomain('scope', $_GET);
 	$redirectUri = getUri('redirect_uri', $_GET);
-?>
+	$domain=UnhostedSettings::domain;
+	$htmlcontent=<<<HTMLFORM
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-<script src="../../jQuery/jquery-1.6.1.min.js"></script>
-<script src="../../css/html5.js"></script><!-- this is the javascript allowing html5 to run in older browsers -->
+<script src="/jQuery/jquery-1.6.1.min.js"></script>
+<script src="/css/html5.js"></script><!-- this is the javascript allowing html5 to run in older browsers -->
 
 <title>My Unhosted node</title>
-<link rel="stylesheet" href="../../css/uncompressed/reset.css" />
-<link rel="stylesheet" href="../../css/uncompressed/text.css" />
-<link rel="stylesheet" href="../../css/uncompressed/general.css" />
-<link rel="stylesheet" href="../../css/uncompressed/login.css" />
+<link rel="stylesheet" href="/css/uncompressed/reset.css" />
+<link rel="stylesheet" href="/css/uncompressed/text.css" />
+<link rel="stylesheet" href="/css/general.css" />
+<link rel="stylesheet" href="/css/uncompressed/login.css" />
 </head>
 	<header>
-		<h1><strong><?php echo UnhostedSettings::domain ?> </strong>Unhosted storage node</h1>
+		<h1><strong>$domain </strong>Unhosted storage node</h1>
 	</header>
 	<body>
 		<div class="content">
-			<h2>The app '<?=$clientId ?>' wants to read and write the <?=$dataScope ?> data in your unhosted account</h2>
+			<h2>The app "$clientId" wants to read and write the $dataScope data in your unhosted account</h2>
 			<form method="post" action="">
-				<label>User address:</label><span class="username"><?=$userAddress ?></span>	
+				<label>User address:</label><span class="username">$userAddress</span>	
 				<label for="password">Password:</label>
 				<div id="passAllow">
 					<form method="POST" action="?">
 					<input type="password" name="pwd" value="" />
 					<input type="submit" name="submit" value="Allow" />
-					<input type="hidden" value="<?=$userAddress ?>" name="user_address">
-					<input type="hidden" value="<?=$dataScope ?>" name="scope">
-					<input type="hidden" value="<?=$redirectUri ?>" name="redirect_uri">
+					<input type="hidden" value="$userAddress" name="user_address">
+					<input type="hidden" value="$dataScope" name="scope">
+					<input type="hidden" value="$redirectUri" name="redirect_uri">
 					</form>
 				</div>
 			</form>	
 		</div>
 	</body>
 </html>
-<?
+HTMLFORM;
+	echo $htmlcontent;
 }
-?>
