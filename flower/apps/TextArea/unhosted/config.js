@@ -1,5 +1,5 @@
-var appBaseUrl = 'http://example.com/unhosted/flower/app';
-var homeHiveUrl = 'http://example.com/unhosted/hive';
+var appBaseUrl = 'http://www.markmyweb.org/flower/apps/TextArea/';
+var homeHiveUrl = 'http://www.markmyweb.org/hive';
 var installationType = 'flower';
 
 var config = {
@@ -8,7 +8,7 @@ var config = {
 	loginUrl: appBaseUrl + '/unhosted/login.html',
 	registerUrl: homeHiveUrl + '/control-panel/register.html',
 	callbackUrl: appBaseUrl + '/unhosted/callback.html',
-	clientId: 'example.com',
-	dataScope: 'example.com',
-	homeDomain: 'example.com'
+	clientId: 'markmyweb',
+	dataScope: 'docs',
+	homeDomain: 'markmyweb.org'
 }
