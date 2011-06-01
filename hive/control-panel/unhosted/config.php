@@ -1,9 +1,8 @@
 <?php
 class UnhostedSettings {
-	const installationType = 'flower';
+	const installationType = 'hive';
 	const protocol = 'http';
-	const domain = 'example.com';
-	const davDir = '/home/mich/Code/unhosted/hive/storage/webdav/';
-	const pwdDir = '/home/mich/Code/unhosted/hive/storage/pwd/';
-	const walletDir = '/home/mich/Code/unhosted/flower/wallet/';
+	const domain = 'dev.unhosted.org';
+	const davDir = '/var/www/dev/hive/storage/webdav/';
+	const pwdDir = '/var/www/dev/hive/storage/pwd/';
 }
