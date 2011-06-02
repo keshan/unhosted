@@ -7,14 +7,20 @@
 	<link rel="stylesheet" type="text/css" href="install/tabs.css">
 	<style>
 /* tab pane styling */
-.panes div {
-	display:none;		
-	padding:15px 10px;
-	border:1px solid #999;
-	border-top:0px;
-        font-size:14px;
-	background-color:#fff;
-}
+   .panes div {
+ display:none;		
+ padding:15px 10px;
+ border:1px solid #999;
+ border-top:0px;
+ font-size:14px;
+ background-color:#fff;
+ }
+
+   .appdirs {
+ position: absolute;
+ right: 500px;
+ width: 300px;
+    }
 
 	</style>
 </head>
@@ -38,6 +44,7 @@
 <!-- tab "panes" -->
 <div class="panes">
 	<div style="display: block;">
+	    <form id="flowerform">
 	  <ul>
 	    <li><input type="checkbox"> Https
 	      <ul>
@@ -51,7 +58,7 @@
 	
 	<div style="display: none;">
 	  <ul>
-	    <li><input type="checkbox" checked="true">Apps
+	    <li><input type="checkbox" id = "apps" checked = "checked">Apps
 	    <ul>
 	    <?php 
 	    $appdir = "flower/apps/";
@@ -62,7 +69,8 @@ if($dircontents && (count($dircontents)>2))
       {
 	if( ($dircontents[$i] != '.') && ($dircontents[$i] != '..') )
 	  {
-	    echo "<li><input type='checkbox' checked='true'>". $dircontents[$i]."</li>";
+	    echo "\n<li><input class= 'appstoinstall'  value='$dircontents[$i]' name = 'appstoinstall' type='checkbox' checked='checked'>". $dircontents[$i].
+	      "<input name='appdir' id = 'app_".$dircontents[$i]."'class='appdirs' value='".$appdir.$dircontents[$i]."' type ='text'></li>";
 	  }
       }
   }	
@@ -71,6 +79,7 @@ else
     echo "No apps found. Check the ". $appdir ."to see if all directories are readable";
   }
 ?>
+
 
 	    </ul>
 	    </li>
@@ -81,7 +90,9 @@ else
 	      </ul>
 	    </li>
 	  </ul>
-	</div>
+  <input type = "submit" value="Install Flower">
+  </form>
+  </div>
 
 	<div style="display: none;">
 	  <ul>
@@ -116,10 +127,25 @@ else
 <script>
 
 // perform JavaScript after the document is scriptable.
-$(function() {
-	// setup ul.tabs to work as tabs for each div directly under div.panes
-	$("ul.tabs").tabs("div.panes > div");
-});
+  $(function() {
+      // setup ul.tabs to work as tabs for each div directly under div.panes
+      $("ul.tabs").tabs("div.panes > div");
+    
+      /* To do the app checkbox thing*/
+      $("#apps").change(function (){
+	  if($(this).is(":checked"))
+	    $(".appstoinstall").attr("checked","checked");
+	  else
+	    $(".appstoinstall").removeAttr("checked");
+	});
+      $(".appstoinstall").change(function (){
+	  if($('.appstoinstall:checked').length)
+	    $("#apps").attr("checked","checked");
+	  else
+	    $("#apps").removeAttr("checked");
+	});
+      /*end of the checkbox thing*/
+    });
 </script>
 
 
