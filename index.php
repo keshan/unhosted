@@ -51,7 +51,29 @@
 	
 	<div style="display: none;">
 	  <ul>
-	    <li><input type="checkbox" checked="true"> App</li>
+	    <li><input type="checkbox" checked="true">Apps
+	    <ul>
+	    <?php 
+	    $appdir = "flower/apps/";
+$dircontents = scandir($appdir);
+if($dircontents && (count($dircontents)>2))
+  {
+    for($i=0; $i < count($dircontents); $i++)
+      {
+	if( ($dircontents[$i] != '.') && ($dircontents[$i] != '..') )
+	  {
+	    echo "<li><input type='checkbox' checked='true'>". $dircontents[$i]."</li>";
+	  }
+      }
+  }	
+else
+  {
+    echo "No apps found. Check the ". $appdir ."to see if all directories are readable";
+  }
+?>
+
+	    </ul>
+	    </li>
 	    <li><input type="checkbox"> Wallet
 	      <ul>
 		<li>PHP installed</li>
