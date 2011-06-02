@@ -18,6 +18,7 @@
 
    .appdirs {
  position: absolute;
+ display: inline;
  right: 500px;
  width: 300px;
     }
@@ -70,7 +71,7 @@ if($dircontents && (count($dircontents)>2))
 	if( ($dircontents[$i] != '.') && ($dircontents[$i] != '..') )
 	  {
 	    echo "\n<li><input class= 'appstoinstall'  value='$dircontents[$i]' name = 'appstoinstall' type='checkbox' checked='checked'>". $dircontents[$i].
-	      "<input name='appdir' id = 'app_".$dircontents[$i]."'class='appdirs' value='".$appdir.$dircontents[$i]."' type ='text'></li>";
+	      "<input name='appdir' id = 'app_".$dircontents[$i]."'class='appdirs' value='".$appdir.$dircontents[$i]."' type ='text' style='display:inline'></li>";
 	  }
       }
   }	
@@ -133,24 +134,25 @@ else
     
       /* To do the app checkbox thing*/
       $("#apps").change(function (){
-	  if($(this).is(":checked"))
+	  if($(this).is(":checked")){
 	    $(".appstoinstall").attr("checked","checked");
-	  else
+	    $('[id^="app_"]').show();
+	  }
+	  else{
 	    $(".appstoinstall").removeAttr("checked");
+	     $('[id^="app_"]').hide();
+	  }
 	});
       $(".appstoinstall").change(function (){
 	  if($('.appstoinstall:checked').length)
 	    $("#apps").attr("checked","checked");
 	  else
 	    $("#apps").removeAttr("checked");
+
+	  $("#app_"+$(this).val()).toggle(); // app_"+$(this).val() gives the id of corresponding dir
 	});
       /*end of the checkbox thing*/
     });
 </script>
-
-
-
-
-
 
 </body></html>
