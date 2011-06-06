@@ -1,3 +1,18 @@
+<?php
+if(isset($_GET['checkdir']))
+  { $dirpath=getcwd().'/'.$_GET['checkdir'];
+    if( is_writable($dirpath))
+      echo "True";
+    else if (file_exists($dirpath))
+      echo "Exists";
+    else
+      echo "False";
+    exit();
+    
+  }
+?>
+
+
 <!DOCTYPE html>
 <html>
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
@@ -71,7 +86,7 @@ if($dircontents && (count($dircontents)>2))
 	if( ($dircontents[$i] != '.') && ($dircontents[$i] != '..') )
 	  {
 	    echo "\n<li><input class= 'appstoinstall'  value='$dircontents[$i]' name = 'appstoinstall' type='checkbox' checked='checked'>". $dircontents[$i].
-	      "<input name='appdir' id = 'app_".$dircontents[$i]."'class='appdirs' value='".$appdir.$dircontents[$i]."' type ='text' style='display:inline'></li>";
+	      "<input name='appdir' id = 'app_".$dircontents[$i]."'class='appdirs' value='".$appdir.$dircontents[$i]."' type ='text' style='display:inline'><</li>";
 	  }
       }
   }	
@@ -91,7 +106,7 @@ else
 	      </ul>
 	    </li>
 	  </ul>
-  <input type = "submit" value="Install Flower">
+  <input type = "submit" value="Install Flower" action="#">
   </form>
   </div>
 
@@ -152,6 +167,17 @@ else
 	  $("#app_"+$(this).val()).toggle(); // app_"+$(this).val() gives the id of corresponding dir
 	});
       /*end of the checkbox thing*/
+      $('[id^="app_"]').change(function () {
+	  currentelement=$(this);
+	  $.get("",{ checkdir: $(this).val()},function (data) {
+	      if(data=="False")
+		{
+		  currentelement.css({'background-color':'#ff0000'});
+		}
+	      else
+		currentelement.css({'background-color':'#00ff00'});
+	    });
+	});
     });
 </script>
 
