@@ -7,17 +7,20 @@
 $(document).ready(function() {
 	var showdown = new Showdown.converter();
 	$.ajax({
-		url: 'http://federoni.org/webdav/federoni.org/mich/docs/docList1',
+		url: 'http://federoni.org/webdav/federoni.org/mich/docs/docList',
 		dataType: 'json',
 		success: function(docList) {
-			var htmlPost1 = showdown.makeHtml(docList.docs[0].text);
+			var htmlPost1 = showdown.makeHtml(docList.docs[1].text);
 			$('#post1').html(htmlPost1);
+			var htmlPost0 = showdown.makeHtml(docList.docs[0].text);
+			$('#post0').html(htmlPost0);
 		}
 	});
 });
 </script>
 </head>
 <body>
-<div id="post1">post1</div>
+<div class="post" id="post1">post1</div>
+<div class="post" id="post0">post0</div>
 </body>
 </html>
